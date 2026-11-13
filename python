@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as stats
+import statsmodels.api as sm
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.model_selection import train_test_split
+
+# Carregamento e limpeza de dados
+# df = pd.read_csv('sua_base_de_dados.csv')
+
+# 02. DISTRIBUIÇÃO NORMAL DE PROBABILIDADE
+# Exemplo com dados aleatórios simulados (substitua pelos seus dados reais)
+np.random.seed(42)
+var_estudo = pd.Series(np.random.normal(50, 15, 100)) 
+media_var, desvio_var, mediana_var = var_estudo.mean(), var_estudo.std(), var_estudo.median()
+
+prob_menor_media = stats.norm.cdf(media_var, loc=media_var, scale=desvio_var)
+print(f'Probabilidade (X < média): {prob_menor_media:.4f}')
+
+prob_maior_mediana = 1 - stats.norm.cdf(mediana_var, loc=media_var, scale=desvio_var)
+print(f'Probabilidade (X > mediana): {prob_maior_mediana:.4f}')
+
+# 03. TESTES DE HIPÓTESES PARA A MÉDIA
+amostra_20 = var_estudo.sample(n=20, random_state=42)
+t_stat_a, p_valor_a = stats.ttest_1samp(amostra_20, popmean=media_var, alternative='less')
+print(f'Teste A (6% sig, n=20) - p-valor: {p_valor_a:.4f}')
+
+amostra_25 = var_estudo.sample(n=25, random_state=42)
+t_stat_b, p_valor_b = stats.ttest_1samp(amostra_25, popmean=media_var, alternative='greater')
+print(f'Teste B (9% sig, n=25) - p-valor: {p_valor_b:.4f}')
+
+# 04. ANÁLISE BIVARIADA E REGRESSÃO LINEAR SIMPLES
+X_simples = pd.Series(np.random.rand(100) * 100)
+Y_simples = 2 * X_simples + np.random.normal(0, 10, 100)
+
+plt.figure(figsize=(6,4))
+sns.scatterplot(x=X_simples, y=Y_simples)
+plt.title('Dispersão X vs Y')
+plt.show()
+
+X_simples_sm = sm.add_constant(X_simples)
+modelo_rls = sm.OLS(Y_simples, X_simples_sm).fit()
+print(modelo_rls.summary())
