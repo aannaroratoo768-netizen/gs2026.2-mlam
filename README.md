@@ -1,2 +1,2 @@
-# gs2026.2-mlam
-gs26.2 mlam
+# GS2026.2-MLAM
+Membros: Anna Rorato - RM: 569604
