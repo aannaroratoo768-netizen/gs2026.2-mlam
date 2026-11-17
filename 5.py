@@ -2,7 +2,7 @@
 # Regressão Múltipla
 X_mult = pd.DataFrame({'3790': np.random.rand(100), '37,5%': np.random.rand(100)})
 X_mult_sm = sm.add_constant(X_mult)
-modelo_rlm = sm.OLS(Y_simples, X_mult_sm).fit()
+modelo_rlm = sm.OLS(variacao_do_pib_trimestral, X_mult_sm).fit()
 print(modelo_rlm.summary())
 
 # Regressão Logística
